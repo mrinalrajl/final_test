@@ -10,8 +10,104 @@ const PORT = 3000;
 const secretKey = 'My super secret key';
 const saltRounds = 10;
 
+
+
+/* //Summary text part 1 
+const puppeteer = require('puppeteer');
+const cheerio = require('cheerio');
+const fs = require('fs');
+
+async function scrapeAndSummarize() {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto('https://hatchworks.com/blog/gen-ai/generative-ai-use-cases/');
+
+  const content = await page.content();
+  const $ = cheerio.load(content);
+
+  const summary = {
+    title: $('h1').first().text().trim(),
+    sections: []
+  };
+
+  $('h2').each((index, element) => {
+    const sectionTitle = $(element).text().trim();
+    const sectionContent = $(element).next('p').text().trim();
+    summary.sections.push({ title: sectionTitle, content: sectionContent });
+  });
+
+  await browser.close();
+
+  fs.writeFileSync('./public/generative_ai_summary.json', JSON.stringify(summary, null, 2));
+  console.log('Summary saved to generative_ai_summary.json');
+}
+
+scrapeAndSummarize(); */ 
+
+// Effiecent code for Text Summarization using Puppeteer and Cheerrio
+const puppeteer = require('puppeteer');
+const cheerio = require('cheerio');
+const fs = require('fs');
+
+async function scrapeAndSummarize() {
+  let browser;
+
+  try {
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+
+    const page = await browser.newPage();
+    await page.goto('https://hatchworks.com/blog/gen-ai/generative-ai-use-cases/', {
+      waitUntil: 'domcontentloaded'
+    });
+
+    // Wait for key content to load
+    await page.waitForSelector('h1');
+
+    const content = await page.content();
+    const $ = cheerio.load(content);
+
+    const summary = {
+      title: $('h1').first().text().trim(),
+      sections: []
+    };
+
+    $('h2').each((index, element) => {
+      const sectionTitle = $(element).text().trim();
+      const sectionContent = $(element).nextUntil('h2').text().trim();
+      summary.sections.push({ title: sectionTitle, content: sectionContent });
+    });
+
+    // Ensure output directory exists
+    if (!fs.existsSync('./public')) {
+      fs.mkdirSync('./public', { recursive: true });
+    }
+
+    fs.writeFileSync('./public/generative_ai_summary.json', JSON.stringify(summary, null, 2));
+    console.log('Summary saved to generative_ai_summary.json');
+  } catch (error) {
+    console.error('Error during scraping:', error);
+  } finally {
+    if (browser) await browser.close();
+  }
+}
+
+scrapeAndSummarize();
+
+
+
+
+
+
+
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
+
+
+
+
 
 let users = [
   { id: 1, username: 'Mrinal', password: bcrypt.hashSync('Mrinal', saltRounds), firstname: 'Mrinal',lastame: 'Raj' },
