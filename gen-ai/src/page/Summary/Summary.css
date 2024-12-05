@@ -6,8 +6,8 @@
 
 .reports-content {
   background: rgba(183, 215, 233, 0.37);
-  border-radius: 12px;
-  padding: 30px;
+  border-radius: 15px;
+  padding: 15px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -31,8 +31,8 @@
 .section-card {
   background: #f8f9fa;
   border-radius: 8px;
-  padding: 20px;
-  transition: transform 0.2s;
+  padding: 15px;
+  transition: transform 0.2s ease-in;
   
 }
 

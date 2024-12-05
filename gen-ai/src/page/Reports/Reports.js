@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pie, Doughnut, Bar, Line } from 'react-chartjs-2';
+import { Doughnut, Bar, Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
+import './Reports.css';
 
 ChartJS.register(
   ArcElement,
@@ -25,6 +26,8 @@ ChartJS.register(
   Legend
 );
 
+
+
 function Reports() {
   const [chartData, setChartData] = useState({
     pie: null,
@@ -33,27 +36,36 @@ function Reports() {
     line: null
   });
 
+  
+
   useEffect(() => {
     setChartData({
-      pie: {
-        labels: ['House EMI', 'Pet', 'Eat Out', 'Rent', 'Groceries', 'Fuel', 'Shopping', 'Car EMI', 'Maintenance', 'Insurance'],
-        datasets: [{
-          data: [45, 2, 3, 15, 5, 3, 7, 10, 5, 5],
-          backgroundColor: [
-            '#4a235a', '#2ecc71', '#27ae60', '#e91e63', 
-            '#f1c40f', '#e67e22', '#9b59b6', '#ff69b4', 
-            '#f39c12', '#e74c3c'
-          ]
-        }]
-      },
       doughnut: {
-        labels: ['House EMI', 'Pet', 'Eat Out', 'Rent', 'Groceries', 'Fuel', 'Shopping', 'Car EMI', 'Maintenance', 'Insurance'],
+        labels: [
+          'GPT-4',
+          'DALL-E 3',
+          'Claude 2',
+          'Stable Diffusion',
+          'Llama 2',
+          'Mistral Mixtral',
+          'MidJourney',
+          'Google Gemini',
+          'LangChain',
+          'Hugging Face'
+        ],
         datasets: [{
-          data: [45, 2, 3, 15, 5, 3, 7, 10, 5, 5],
+          data: [95, 92, 90, 88, 85, 84, 82, 80, 78, 75],
           backgroundColor: [
-            '#4a235a', '#2ecc71', '#27ae60', '#e91e63', 
-            '#f1c40f', '#e67e22', '#9b59b6', '#ff69b4', 
-            '#f39c12', '#e74c3c'
+            '#4a235a',
+            '#2ecc71',
+            '#27ae60',
+            '#e91e63',
+            '#f1c40f',
+            '#e67e22',
+            '#9b59b6',
+            '#ff69b4',
+            '#f39c12',
+            '#e74c3c'
           ]
         }]
       },
@@ -94,11 +106,7 @@ function Reports() {
       <h1>Reports Dashboard</h1>
       <div className="charts-grid">
         <div className="chart-box">
-          <h2>Expense Distribution (Pie)</h2>
-          {chartData.pie && <Pie data={chartData.pie} options={options} />}
-        </div>
-        <div className="chart-box">
-          <h2>Expense Distribution (Doughnut)</h2>
+          <h2>Lead Generative AI (Doughnut)</h2>
           {chartData.doughnut && <Doughnut data={chartData.doughnut} options={options} />}
         </div>
         <div className="chart-box">

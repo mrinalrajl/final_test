@@ -1,28 +1,73 @@
 .reports-container {
+  min-height: 100vh;
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.sections-container {
+.charts-grid {
   display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   margin-top: 20px;
 }
 
-.section {
-  background: white;
-  padding: 20px;
+.chart-box {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(186, 222, 243, 0.596);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  padding: 20px;
+}
+
+.chart-box:hover {
+  transform: translateY(-10px);
+  background: rgba(171, 109, 252, 0.192);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+  border: 1px solid rgba(128, 65, 245, 0.699);
 }
 
 .section h3 {
-  color: #333;
-  margin-bottom: 10px;
+  color: #2d3748;
+  margin-bottom: 15px;
+  transition: color 0.3s ease;
+  font-size: 18px;
 }
 
 .section p {
-  color: #666;
+  color: #4a5568;
   line-height: 1.6;
+  transition: color 0.3s ease;
 }
+
+.chart-box:hover h3 {
+  color: #1a202c;
+}
+
+.chart-box:hover p {
+  color: #2d3748;
+}
+
+.read-more-btn {
+  background: rgba(102, 126, 234, 0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+}
+
+.read-more-btn:hover {
+  background: rgb(91, 109, 192);
+  transform: scale(1.05);
+} 
+
