@@ -1,0 +1,95 @@
+.login-container {
+    position: relative;
+    width: 300px;
+    padding: 24px;
+    background-image: url('C:\Users\Mrinal Raj\NBAD_FINAL\gen-ai\public\bg.png');
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-radius: 4px;
+    margin: 32px auto;
+  }
+  
+  .login-container h2 {
+    font-size: 24px;
+    font-weight: 500;
+    color: #212121;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  .login-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-container .input-field {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  
+  .login-container input {
+    width: 100%;
+    padding: 12px 0 8px;
+    font-size: 16px;
+    line-height: 1.5;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+    background: transparent;
+    transition: border-bottom-color 0.3s;
+  }
+  
+  .login-container input:focus {
+    outline: none;
+    border-bottom-color: #7c36df;
+  }
+  
+  .login-container label {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  
+  .login-container input:focus + label,
+  .login-container input:valid + label {
+    top: -8px;
+    font-size: 12px;
+    color: #7f3edb;
+  }
+  
+  .login-container button {
+    margin-top: 24px;
+    padding: 12px 16px;
+    color: #ffffff;
+    background-color: #7729e4;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .login-container button:hover {
+    background-color: #3700b3;
+  }
+  
+  .login-container .register-button {
+    display: block;
+    margin-top: 16px;
+    color: #6200ee;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1.25px;
+  }
+  
+  .login-container .register-button:hover {
+    color: #7142df;
+  }
