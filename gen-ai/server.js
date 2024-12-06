@@ -1,15 +1,82 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const { expressjwt } = require('express-jwt');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const request = require('request');
+const mysql=require('mysql')
+
 
 const app = express();
 const PORT = 3000;
 const secretKey = 'My super secret key';
-const saltRounds = 10;
+const saltRounds = 10; 
 
+var verifyToken = function(req, res, next) {
+  var tokenData = req.header('authorization').split(" ")[1];
+  if (!tokenData) {
+      return res.status(400).send({ data: "Token NOT found" });
+  }
+
+  var authValue = req.header('authorization').split(" ")[1];
+  if (authValue) {
+      tokenCheck = authValue;
+      try {
+          tokenStatus = jwt.verify(tokenCheck, secretKey);
+          if (!tokenStatus) {
+              return res.status(400).send("No token available to decode");
+          }
+          if (!tokenStatus.username) {
+              return res.status(400).send("Unauthorized User");
+          }
+          next();
+      } catch (err) {
+          res.json({
+              success: false,
+              myContent: err.toString() + " Please login again!"
+          });
+      }
+  } else {
+      return res.status(400).send("No header present");
+  }
+};
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
+  next();
+});
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const jwtMW = expressjwt({
+  secret: secretKey,
+  algorithms: ['HS256']
+});
+
+var connection = mysql.createConnection({
+  host: 'sql5.freemysqlhosting.net',
+  user: 'sql5750146',
+  password: 'ShIFsPHghE',
+  database: 'sql5750146'
+}); 
+
+
+// Database connection
+connection.connect(err => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('Connected to MySQL database');
+});
+
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Login.js'));
+});
 
 
 /* //Summary text part 1 
@@ -48,6 +115,10 @@ scrapeAndSummarize(); */
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const fs = require('fs');
+
+app.use(cors());
+app.use(bodyParser.json()); 
+
 
 async function scrapeAndSummarize() {
   let browser;
@@ -98,21 +169,10 @@ scrapeAndSummarize();
 
 
 
-
-
-
-
-app.use(cors());
-app.use(bodyParser.json()); 
-
-
-
-
-
-let users = [
+/*let users = [
   { id: 1, username: 'Mrinal', password: bcrypt.hashSync('Mrinal', saltRounds), firstname: 'Mrinal',lastame: 'Raj' },
   { id: 2, username: 'HW7', password: bcrypt.hashSync('100', saltRounds), firstname: 'HW7' ,lastname: 'Alex' }
-];
+];*/
 
 const industryData = {
   labels: ['Healthcare', 'Finance', 'Manufacturing', 'Retail', 'Education'],
@@ -123,45 +183,82 @@ const industryData = {
 const performanceData = {
   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
   values: [65, 75, 85, 89, 92, 95]
-};
+};  
 
 
-const verifyToken = (req, res, next) => {
-  const bearerHeader = req.headers['authorization'];
-  if (typeof bearerHeader !== 'undefined') {
-    const bearer = bearerHeader.split(' ');
-    const bearerToken = bearer[1];
-    req.token = bearerToken;
-    jwt.verify(req.token, secretKey, (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        req.authData = authData;
-        next();
-      }
-    });
-  } else {
-    res.sendStatus(403);
-  }
-};
 
 
-/// Login Code 
+
+// Login endpoint
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
-  const user = users.find(u => u.username === username);
-  
-  if (user && await bcrypt.compare(password, user.password)) {
-    const accessToken = jwt.sign({ userId: user.id, username: user.username }, secretKey, { expiresIn: '1m' });
-    res.json({
-      accessToken,
-      firstname: user.firstname,
-      lastname: user.lastname
-    });
-  } else {
-    res.status(401).json({ error: 'Invalid login credentials' });
-  }
-}); 
+
+  const query = 'SELECT * FROM user WHERE username = ?';
+  connection.query(query, [username], async (err, results) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      return res.status(500).json({ 
+        success: false, 
+        err: 'Internal server error' 
+      });
+    }
+
+    if (results.length === 0) {
+      return res.status(401).json({
+        success: false,
+        token: null,
+        err: 'Username or password is incorrect'
+      });
+    }
+
+    const user = results[0];
+    console.log('User fetched:', user);
+
+    // Ensure user.password exists
+    if (!user.password) {
+      return res.status(500).json({
+        success: false,
+        err: 'Internal server error: Password field missing'
+      });
+    }
+
+    try {
+      const match = await bcrypt.compare(password, user.password);
+      if (password==user.password) {
+        const token = jwt.sign(
+          { 
+            id: user.id, 
+            username: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname 
+          }, 
+          secretKey, 
+          { expiresIn: '6000s' }
+        );
+        
+        res.json({
+          success: true,
+          token,
+          firstname: user.firstname,
+          lastname: user.lastname
+        });
+      } else {
+        res.status(401).json({
+          success: false,
+          token: null,
+          err: 'Username or password is incorrect'
+        });
+      }
+    } catch (error) {
+      console.error('Error comparing passwords:', error);
+      res.status(500).json({
+        success: false,
+        err: 'Internal server error'
+      });
+    }
+  });
+});
+
 
 
 // For New Registration
@@ -319,12 +416,6 @@ app.get('/api/news', async (req, res) => {
     });
   }
 });
-
-
-
-
-
-
 
 
 

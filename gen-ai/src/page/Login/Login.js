@@ -9,71 +9,45 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    if (!username || !password) {
+      toast.error('Username and Password are required.', { position: 'top-center' });
+      return;
+    }
+  
     try {
+      const payload = { username, password };
+      console.log('Sending payload:', payload); // Debugging log
+  
       const response = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify(payload),
       });
-
+  
+      const userData = await response.json();
+  
       if (response.ok) {
-        const userData = await response.json();
-
-        if (userData.accessToken) {
-          handleToken(userData.accessToken);
-
-          const decodedToken = decodeToken(userData.accessToken);
-
-          if (decodedToken && decodedToken.userId) {
-            const userId = decodedToken.userId;
-            const firstname = userData.firstname;
-
-            localStorage.setItem('userId', userId);
-            localStorage.setItem('firstname', firstname);
-
-            // Use navigate instead of the alert to redirect to the homepage
-            navigate('/dashboard');
-          } else {
-            console.error('User ID not found in decoded token:', decodedToken);
-            toast.error('Invalid login credentials', {
-              position: toast.POSITION.TOP_CENTER,
-            });
-          }
+        if (userData.token) {
+          localStorage.setItem('token', userData.token);
+          localStorage.setItem('firstname', userData.firstname);
+  
+          toast.success(`Welcome ${userData.firstname}!`, { position: 'top-center' });
+          setTimeout(() => navigate('/dashboard'), 1500);
         } else {
-          console.error('Access token not found in server response:', userData);
+          toast.error('Unexpected server response. Please try again.', { position: 'top-center' });
         }
       } else {
-        // Use toast instead of alert for a better user experience
-        toast.error('Invalid login credentials', {
-          position: toast.POSITION.TOP_CENTER,
-        });
+        toast.error(userData.message || 'Invalid credentials.', { position: 'top-center' });
       }
     } catch (error) {
       console.error('Error during login:', error);
+      toast.error('Unable to login. Please try again later.', { position: 'top-center' });
     }
   };
-
-  const handleToken = (token) => {
-    // Set the token in local storage
-    localStorage.setItem("token", token);
   
-    // Set the expiration time (e.g., 1 minute from now)
-    const expirationTime = new Date().getTime() + 60 * 1000; // 1 minute
-    localStorage.setItem("tokenExpiration", expirationTime);
-  };
   
-  const decodeToken = (token) => {
-    try {
-      const decodedString = atob(token.split('.')[1]);
-      const decodedObject = JSON.parse(decodedString);
-      return decodedObject;
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return null;
-    }
-  };
 
   const styles = {
     container: {
@@ -151,8 +125,8 @@ const Login = () => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.heading}>Welcome Back!!</h2>
-        <form style={styles.form}>
+        <h2 style={styles.heading}>Welcome Back!</h2>
+        <form style={styles.form} onSubmit={(e) => e.preventDefault()}>
           <div style={styles.inputGroup}>
             <input
               type="text"
@@ -161,12 +135,14 @@ const Login = () => {
               style={styles.input}
               required
             />
-            <label style={{
-              ...styles.label,
-              top: username ? '-20px' : '10px',
-              fontSize: username ? '12px' : '16px',
-              color: username ? '#667eea' : '#999',
-            }}>
+            <label
+              style={{
+                ...styles.label,
+                top: username ? '-20px' : '10px',
+                fontSize: username ? '12px' : '16px',
+                color: username ? '#667eea' : '#999',
+              }}
+            >
               Username
             </label>
           </div>
@@ -176,15 +152,16 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={styles.input}
-              autoComplete="current-password"
               required
             />
-            <label style={{
-              ...styles.label,
-              top: password ? '-20px' : '10px',
-              fontSize: password ? '12px' : '16px',
-              color: password ? '#667eea' : '#999',
-            }}>
+            <label
+              style={{
+                ...styles.label,
+                top: password ? '-20px' : '10px',
+                fontSize: password ? '12px' : '16px',
+                color: password ? '#667eea' : '#999',
+              }}
+            >
               Password
             </label>
           </div>
@@ -193,7 +170,7 @@ const Login = () => {
           </button>
           <ToastContainer />
         </form>
-        <Link to="/Register" style={styles.registerLink}>
+        <Link to="/register" style={styles.registerLink}>
           Create an account
         </Link>
       </div>
