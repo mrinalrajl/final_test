@@ -111,6 +111,10 @@ async function scrapeAndSummarize() {
 
 scrapeAndSummarize(); */ 
 
+
+
+//Summary Content Web Scraping Endpoint
+
 // Effiecent code for Text Summarization using Puppeteer and Cheerrio
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
@@ -169,7 +173,11 @@ scrapeAndSummarize();
 
 
 
-/*let users = [
+/*  
+
+///this was for local Testing 
+//commented theis for Depolying
+let users = [
   { id: 1, username: 'Mrinal', password: bcrypt.hashSync('Mrinal', saltRounds), firstname: 'Mrinal',lastame: 'Raj' },
   { id: 2, username: 'HW7', password: bcrypt.hashSync('100', saltRounds), firstname: 'HW7' ,lastname: 'Alex' }
 ];*/
@@ -447,40 +455,8 @@ app.get('/api/news', async (req, res) => {
 
 
 
-///reports
-
-app.get('/api/industry-adoption', (req, res) => {
-  res.json({
-    labels: industryData.labels,
-    values: industryData.values
-  });
-});
-
-app.get('/api/performance-trends', (req, res) => {
-  res.json({
-    labels: performanceData.labels,
-    values: performanceData.values
-  });
-});
 
 
-
-
-app.get('/api/summary-data', (req, res) => {
-  const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    values: [50, 60, 70, 85, 90, 100]
-  };
-  res.json(data);
-});
-
-app.get('/api/reports-data', (req, res) => {
-  const data = {
-    categories: ['Healthcare', 'Finance', 'Retail', 'Education', 'Tech'],
-    adoption_rates: [80, 75, 65, 85, 90]
-  };
-  res.json(data);
-});
 
 // Summary data endpoint
 app.get('/api/summary', (req, res) => {
@@ -488,28 +464,12 @@ app.get('/api/summary', (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Reports data endpoint
 app.get('/api/register', (req, res) => {
   const queries = {
-    doughnut: 'SELECT label, value FROM doughnut_chart_data',
-    bar: 'SELECT label, value FROM bar_chart_data',
-    line: 'SELECT label, value FROM line_chart_data',
+    doughnut: 'SELECT label, value FROM doughnut_chart_data', //fetch Doughnut data from their the tables 
+    bar: 'SELECT label, value FROM bar_chart_data',  //fetch Bar Chart data from their the tables 
+    line: 'SELECT label, value FROM line_chart_data',  //fetch Line chart data from the respective tables 
   };
 
   const fetchChartData = async () => {

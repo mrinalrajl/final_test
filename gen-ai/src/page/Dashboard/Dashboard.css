@@ -8,26 +8,29 @@
 }
 
 .dashboard-header h2 {
-  font-size: 20px;
+  font-size: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
   color: #333;
   margin-bottom: 20px;
 }
 
 .latest-news h3 {
-  font-size: 18px;
-  margin-bottom: 20px;
+  font-size: 22px;
+  position: relative;
+  margin-bottom: 18px;
 }
 
 .news-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  padding: 20px 0;
+  gap: 25px;
+  width: fit-content;
+  padding: 18px 0;
 }
 
 .card-image-container {
   width: 100%;
-  height: 200px;
+  height: 225px;
   overflow: hidden;
   border-radius: 8px 8px 0 0;
 }
@@ -53,7 +56,7 @@
   background-color: #667eea;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 18px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease-out;
@@ -83,7 +86,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
+  border-radius: 8ch;
   overflow: hidden;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
 }
@@ -127,12 +130,12 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   transition: all 0.3s ease;
-  border-radius: 5rem;
+  border-radius: 5.5rem;
 }
 
 .read-more:hover {
   background: rgb(91, 109, 192);
-  transform: scale(1.05);
+  transform: scale(1.2);
 }
 
 .news-card p {
@@ -156,12 +159,13 @@
 
 .news-image {
   width: 90%;
-  height: 30px;
+  height: 28px;
   object-fit: cover;
 }
 
 .news-content {
-  padding: 15px;
+  padding: 17px;
+  font-size: 10px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;

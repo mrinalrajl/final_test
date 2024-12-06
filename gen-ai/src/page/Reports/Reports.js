@@ -130,14 +130,40 @@ function Reports() {
         <div className="chart-box">
           <h2>Lead Generative AI (Doughnut)</h2>
           {chartData.doughnut && <Doughnut data={chartData.doughnut} options={options} />}
+          <h2>Key Developments</h2>
+          <ul>
+            <li>Integration of multimodal capabilities across platforms</li>
+            <li>Enhanced cloud-native infrastructure for model deployment</li>
+            <li>Improved performance metrics in language understanding</li>
+            <li>Advanced security measures for responsible AI implementation</li>
+            <li>Increased focus on model efficiency and resource optimization</li>
+        </ul>
         </div>
+        
         <div className="chart-box">
-          <h2>AI Industry Adoption</h2>
-          {chartData.bar && <Bar data={chartData.bar} />}
-        </div>
-        <div className="chart-box">
-          <h2>AI Model Performance Trends</h2>
+          <h2>Gen AI Model Performance Trends (Percentage)</h2>
           {chartData.line && <Line data={chartData.line} />}
+          <h2>Future Outlook</h2>
+          <ul>
+            <li>Expanding applications across more industry sectors</li>
+            <li>Growing focus on sustainable AI development</li>
+            <li>Increased emphasis on model interpretability</li>
+            <li>Development of more specialized industry-specific models</li>
+            <li>Enhanced integration with existing business processes</li>
+        </ul>
+        </div>
+
+        <div className="chart-box">
+          <h2>Gen AI Industry Adoption (Percentage)</h2>
+          {chartData.bar && <Bar data={chartData.bar} />}
+          <h2>Implementation Challenges</h2>
+          <ul>
+            <li>Addressing the "black box" problem in AI decision-making</li>
+            <li>Refining contextual understanding and nuance</li>
+            <li>Balancing computational requirements with performance</li>
+            <li>Ensuring ethical AI deployment and governance</li>
+            <li>Managing data privacy and security concerns</li>
+        </ul>
         </div>
       </div>
     </div>
