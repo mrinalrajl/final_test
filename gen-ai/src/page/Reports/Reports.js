@@ -125,7 +125,7 @@ function Reports() {
 
   return (
     <div className="reports-container">
-      <h1>Reports Dashboard</h1>
+      <h1>Reports from My Analysis</h1>
       <div className="charts-grid">
         <div className="chart-box">
           <h2>Lead Generative AI (Doughnut)</h2>

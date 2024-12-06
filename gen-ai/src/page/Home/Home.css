@@ -1,0 +1,171 @@
+.home-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+  }
+  
+  .hero {
+    text-align: center;
+    padding: 60px 0;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    background-image: url("bg.png"); 
+    border-image-slice: fill;
+    background-size: cover;
+    background-position: center;
+    animation: breathe 10s ease-in-out infinite;
+    overflow: hidden;
+    }
+    
+    @keyframes breathe {
+        0%, 100% {
+        background-size: 100% auto;
+        }
+        50% {
+        background-size: 110% auto;
+        }
+    }
+  
+  .hero h1 {
+    font-size: 5em;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 1.5em;
+    color: #f1f1f1;
+  }
+  
+  .intro, .applications, .cta {
+    margin-bottom: 40px;
+  }
+  
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  .features {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    perspective: 1000px;
+  }
+  
+  .feature-card {
+    flex-basis: 30%;
+    background-color: #d4c6c681;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .feature-card:nth-child(2) {
+    animation-delay: -2s;
+  }
+  
+  .feature-card:nth-child(3) {
+    animation-delay: -7s;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px) rotateX(5deg);
+    background-color: aquamarine;
+    box-shadow: 0 10px 20px rgba(80, 4, 131, 0.2);
+  }
+  
+  .feature-card h3 {
+    color: #32adff;
+    font-size: medium;
+    margin-bottom: 10px;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-10px) rotate(2deg);
+    }
+    50% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    75% {
+      transform: translateY(20px) rotate(-5deg);
+    }
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .features {
+      flex-direction: column;
+    }
+  
+    .feature-card {
+      margin-bottom: 20px;
+    }
+  }
+  
+  .applications ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .applications li {
+    background-color: #ecf0f1;
+    max-width: 30%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    position: relative;
+    animation: flyFromSky 7s ease-in-out infinite;
+}
+
+@keyframes flyFromSky {
+    15% {
+        transform: translateY(-20px) translateX(-50px) rotate(-20deg);
+        opacity: 0;
+    }
+    35% {
+        transform: translateY(60px) translateX(25px) rotate(15deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+        opacity: 1;
+    }
+}
+  
+  .cta {
+    text-align: center;
+    background-color: #3498db;
+    color: white;
+    padding: 40px;
+    border-radius: 8px;
+  }
+  
+  .cta h2 {
+    color: white;
+  }
+  
+  .cta:hover {
+    background-color: #8e39f0;
+  }
+  
+  @media (max-width: 768px) {
+    .features {
+      flex-direction: column;
+    }
+  
+    .feature-card {
+      margin-bottom: 20px;
+    }
+  }

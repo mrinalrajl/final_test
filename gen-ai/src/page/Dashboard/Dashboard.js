@@ -114,9 +114,14 @@ const NewsCard = ({ title, description, imageUrl, url }) => (
 return (
   <div className="dashboard-container">
     <div className="dashboard-header">
-      <h2>Recent Innovations in Generative AI</h2>
       <div className="latest-news">
-        <h3>Latest News</h3>
+        <h1>Latest News</h1>
+        <h2>Some Context</h2>
+        <div className='container'>
+      <p>Recent innovations in Generative AI have significantly advanced the field, making it more accessible and powerful. In 2024, the focus shifted from demonstrations to practical applications, with models becoming more accurate, cost-effective, and multimodal. Enterprises began committing to this technology, with 40% of investments coming from permanent budgets. Multimodal capabilities expanded, allowing AI to process and generate multiple types of content simultaneously. Major players like OpenAI, Google, and Anthropic refined their algorithms, improving accuracy and reducing costs. For instance, OpenAI's o1 models achieved remarkable accuracy in complex tasks like mathematics.
+        Despite these advancements, widespread implementation faced challenges. Up to 85% of generative AI projects failed due to technical, data, and operational issues. Integration with legacy systems and ensuring accuracy in diverse scenarios remained hurdles. However, the groundwork has been laid for more production-ready solutions in 2025.
+        Looking ahead, we can expect more robust applications across industries, particularly in customer service automation, knowledge management, and personalized content creation. As generative AI matures, businesses must remain flexible, capitalizing on opportunities while addressing persistent challenges to ensure AI delivers on its transformative potential2. This dashboard is built using a modern tech stack, with React for the frontend and Node.js for the backend. The application uses JWT for authentication and communicates with the backend through RESTful API calls. The frontend is served by NGINX, while the backend runs on port 3000. The project incorporates accessibility features following WCAG guidelines and uses responsive design for cross-device compatibility. Data visualization is implemented using D3.js, with chart data fetched asynchronously from the backend. The entire application is hosted on a single server instance, ensuring efficient resource utilization and ease of maintenance.</p> </div>
+      <h2>Recent Innovations in Generative AI</h2>
       </div>
     </div>
     <div className="news-grid">
@@ -141,4 +146,4 @@ return (
 
 
 
-export default Dashboard;
+export default Dashboard; 
