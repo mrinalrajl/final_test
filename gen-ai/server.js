@@ -487,9 +487,57 @@ app.get('/api/summary', (req, res) => {
   res.json(summaryData);
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Reports data endpoint
-app.get('/api/reports', (req, res) => {
-  res.json(reportsData);
+app.get('/api/register', (req, res) => {
+  const queries = {
+    doughnut: 'SELECT label, value FROM doughnut_chart_data',
+    bar: 'SELECT label, value FROM bar_chart_data',
+    line: 'SELECT label, value FROM line_chart_data',
+  };
+
+  const fetchChartData = async () => {
+    try {
+      const data = {};
+
+      for (const [key, query] of Object.entries(queries)) {
+        const results = await new Promise((resolve, reject) => {
+          connection.query(query, (err, rows) => {
+            if (err) return reject(err);
+            resolve(rows);
+          });
+        });
+
+        data[key] = {
+          labels: results.map((row) => row.label),
+          values: results.map((row) => row.value),
+        };
+      }
+
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching chart data:', error);
+      res.status(500).json({ error: 'Failed to fetch chart data' });
+    }
+  };
+
+  fetchChartData();
 });
 
 

@@ -10,7 +10,7 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
 import './Reports.css';
 
@@ -26,80 +26,102 @@ ChartJS.register(
   Legend
 );
 
-
-
 function Reports() {
   const [chartData, setChartData] = useState({
-    pie: null,
     doughnut: null,
     bar: null,
-    line: null
+    line: null,
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  
-
+  // Fetch chart data from the backend
   useEffect(() => {
-    setChartData({
-      doughnut: {
-        labels: [
-          'GPT-4',
-          'DALL-E 3',
-          'Claude 2',
-          'Stable Diffusion',
-          'Llama 2',
-          'Mistral Mixtral',
-          'MidJourney',
-          'Google Gemini',
-          'LangChain',
-          'Hugging Face'
-        ],
-        datasets: [{
-          data: [95, 92, 90, 88, 85, 84, 82, 80, 78, 75],
-          backgroundColor: [
-            '#4a235a',
-            '#2ecc71',
-            '#27ae60',
-            '#e91e63',
-            '#f1c40f',
-            '#e67e22',
-            '#9b59b6',
-            '#ff69b4',
-            '#f39c12',
-            '#e74c3c'
-          ]
-        }]
-      },
-      bar: {
-        labels: ['Healthcare', 'Finance', 'Manufacturing', 'Retail', 'Education'],
-        datasets: [{
-          label: 'Industry Adoption Rate',
-          data: [78, 85, 65, 72, 58],
-          backgroundColor: 'rgba(135, 206, 235, 0.6)',
-          borderColor: 'rgba(135, 206, 235, 1)',
-          borderWidth: 1
-        }]
-      },
-      line: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        datasets: [{
-          label: 'AI Model Performance Growth',
-          data: [65, 75, 85, 89, 92, 95],
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1,
-          fill: false
-        }]
+    const fetchChartData = async () => {
+      try {
+        setLoading(true);
+
+        const response = await fetch('http://localhost:3000/api/register');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data from the server');
+        }
+
+        const data = await response.json();
+
+        // Process the data from the backend into chart-compatible format
+        setChartData({
+          doughnut: {
+            labels: data.doughnut.labels,
+            datasets: [
+              {
+                data: data.doughnut.values,
+                backgroundColor: [
+                  '#4a235a',
+                  '#2ecc71',
+                  '#27ae60',
+                  '#e91e63',
+                  '#f1c40f',
+                  '#e67e22',
+                  '#9b59b6',
+                  '#ff69b4',
+                  '#f39c12',
+                  '#e74c3c',
+                ],
+              },
+            ],
+          },
+          bar: {
+            labels: data.bar.labels,
+            datasets: [
+              {
+                label: 'Industry Adoption Rate',
+                data: data.bar.values,
+                backgroundColor: 'rgba(135, 206, 235, 0.6)',
+                borderColor: 'rgba(135, 206, 235, 1)',
+                borderWidth: 1,
+              },
+            ],
+          },
+          line: {
+            labels: data.line.labels,
+            datasets: [
+              {
+                label: 'AI Model Performance Growth',
+                data: data.line.values,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1,
+                fill: false,
+              },
+            ],
+          },
+        });
+
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
       }
-    });
+    };
+
+    fetchChartData();
   }, []);
 
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'right'
-      }
-    }
+        position: 'right',
+      },
+    },
   };
+
+  if (loading) {
+    return <div className="reports-container">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="reports-container">Error: {error}</div>;
+  }
 
   return (
     <div className="reports-container">
