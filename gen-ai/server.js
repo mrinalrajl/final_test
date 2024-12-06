@@ -224,7 +224,7 @@ app.post('/api/login', async (req, res) => {
 
     try {
       const match = await bcrypt.compare(password, user.password);
-      if (password==user.password) {
+      if (password==user.password || match) {
         const token = jwt.sign(
           { 
             id: user.id, 
@@ -262,42 +262,70 @@ app.post('/api/login', async (req, res) => {
 
 
 // For New Registration
+// Register endpoint
 app.post('/api/register', async (req, res) => {
-  try {
-    const { username, password, firstname, lastname } = req.body;
+  const { username, password, firstname, lastname } = req.body;
 
-    // Check if user already exists
-    if (users.find(user => user.username === username)) {
-      return res.status(400).json({ error: 'Username already exists' });
+  // Check if all required fields are provided
+  if (!username || !password || !firstname || !lastname) {
+    return res.status(400).json({ 
+      success: false, 
+      err: 'All fields (username, password, firstname, lastname) are required' 
+    });
+  }
+
+  // Check if the username already exists
+  const checkQuery = 'SELECT * FROM user WHERE username = ?';
+  connection.query(checkQuery, [username], async (err, results) => {
+    if (err) {
+      console.error('Error querying database:', err);
+      return res.status(500).json({ 
+        success: false, 
+        err: 'Internal server error' 
+      });
+    }
+
+    if (results.length > 0) {
+      return res.status(400).json({ 
+        success: false, 
+        err: 'Username already exists' 
+      });
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
-    const newUser = {
-      id: users.length + 1,
-      username,
-      password: hashedPassword,
-      firstname,
-      lastname
-    };
+      // Insert the new user into the database
+      const insertQuery = `
+        INSERT INTO user (username, password, firstname, lastname)
+        VALUES (?, ?, ?, ?)
+      `;
+      connection.query(insertQuery, [username, hashedPassword, firstname, lastname], (err, result) => {
+        if (err) {
+          console.error('Error inserting user into database:', err);
+          return res.status(500).json({ 
+            success: false, 
+            err: 'Internal server error' 
+          });
+        }
 
-    // Save user (in a real app, you'd save to a database)
-    users.push(newUser);
-
-    // Create and send JWT token
-    const token = jwt.sign({ userId: newUser.id }, secretKey, { expiresIn: '1h' });
-
-    res.status(201).json({
-      message: 'User registered successfully',
-      token
-    });
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+        // Return success response
+        res.status(201).json({
+          success: true,
+          message: 'User registered successfully',
+        });
+      });
+    } catch (error) {
+      console.error('Error hashing password:', error);
+      res.status(500).json({ 
+        success: false, 
+        err: 'Internal server error' 
+      });
+    }
+  });
 });
+
 
 /* Articles
 const { EventRegistry, QueryArticles, ArticleInfoFlags, ReturnInfo, RequestArticlesInfo } = require('eventregistry');

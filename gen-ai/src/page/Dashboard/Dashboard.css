@@ -56,12 +56,13 @@
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease-out;
   margin-top: 15px;
 }
 
 .read-more-btn:hover {
-  background-color: #5a6fd6;
+  background-color: #2de7bfb7;
+  color: #1a202c;
 }
 
 .read-more {
@@ -78,7 +79,7 @@
 .news-card {
   cursor: pointer;
   transition: all 0.3s ease;
-  background: rgba(234, 243, 186, 0.788);
+  background: rgba(186, 217, 243, 0.788);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
