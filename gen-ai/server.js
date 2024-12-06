@@ -4,73 +4,59 @@ const { expressjwt } = require('express-jwt');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const request = require('request');
-const mysql=require('mysql')
-
+const path = require('path');
+const mysql = require('mysql');
 
 const app = express();
 const PORT = 3000;
 const secretKey = 'My super secret key';
-const saltRounds = 10; 
+const saltRounds = 10;
 
-var verifyToken = function(req, res, next) {
-  var tokenData = req.header('authorization').split(" ")[1];
-  if (!tokenData) {
-      return res.status(400).send({ data: "Token NOT found" });
-  }
-
-  var authValue = req.header('authorization').split(" ")[1];
-  if (authValue) {
-      tokenCheck = authValue;
-      try {
-          tokenStatus = jwt.verify(tokenCheck, secretKey);
-          if (!tokenStatus) {
-              return res.status(400).send("No token available to decode");
-          }
-          if (!tokenStatus.username) {
-              return res.status(400).send("Unauthorized User");
-          }
-          next();
-      } catch (err) {
-          res.json({
-              success: false,
-              myContent: err.toString() + " Please login again!"
-          });
-      }
-  } else {
-      return res.status(400).send("No header present");
-  }
-};
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
-  next();
-});
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-const jwtMW = expressjwt({
-  secret: secretKey,
-  algorithms: ['HS256']
-});
-
-var connection = mysql.createConnection({
+// Database connection
+const connection = mysql.createConnection({
   host: 'sql5.freemysqlhosting.net',
   user: 'sql5750146',
   password: 'ShIFsPHghE',
   database: 'sql5750146'
-}); 
+});
 
-
-// Database connection
 connection.connect(err => {
   if (err) {
     console.error('Error connecting to MySQL:', err);
     return;
   }
   console.log('Connected to MySQL database');
+});
+
+// Middleware to verify JWT token
+function verifyToken(req, res, next) {
+  const authHeader = req.header('Authorization');
+  if (!authHeader) {
+    return res.status(401).json({ message: 'Access Denied: No token provided' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const verified = jwt.verify(token, secretKey);
+    req.user = verified; // Attach decoded token payload to req.user
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'Invalid Token: Please log in again' });
+  }
+}
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Protect all routes except /login and /register
+app.use((req, res, next) => {
+  const unprotectedRoutes = ['/api/login', '/api/register'];
+  if (!unprotectedRoutes.includes(req.path)) {
+    return verifyToken(req, res, next);
+  }
+  next();
 });
 
 
@@ -181,18 +167,6 @@ let users = [
   { id: 1, username: 'Mrinal', password: bcrypt.hashSync('Mrinal', saltRounds), firstname: 'Mrinal',lastame: 'Raj' },
   { id: 2, username: 'HW7', password: bcrypt.hashSync('100', saltRounds), firstname: 'HW7' ,lastname: 'Alex' }
 ];*/
-
-const industryData = {
-  labels: ['Healthcare', 'Finance', 'Manufacturing', 'Retail', 'Education'],
-  values: [78, 85, 65, 72, 58]
-};
-
-
-const performanceData = {
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-  values: [65, 75, 85, 89, 92, 95]
-};  
-
 
 
 

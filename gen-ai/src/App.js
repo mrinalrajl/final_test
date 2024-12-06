@@ -29,6 +29,7 @@ function AppContent() {
       {showMenuAndFooter && <Menu />}
       <div className="mainContainer">
         <Routes>
+        <Route exact path="/" element={<Navigate to="/login" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/home" element={<Home />} />
           <Route path="/register" element={<Register />} />
@@ -36,10 +37,7 @@ function AppContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/summary" element={<Summary />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
-          <Route
-            exact path="/"
-            element={<Navigate to="/login" />}
-          />
+          
         </Routes>
       </div>
       {showMenuAndFooter && <Footer />}

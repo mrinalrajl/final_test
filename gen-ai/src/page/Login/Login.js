@@ -34,7 +34,7 @@ const Login = () => {
           localStorage.setItem('firstname', userData.firstname);
   
           toast.success(`Welcome ${userData.firstname}!`, { position: 'top-center' });
-          setTimeout(() => navigate('/dashboard'), 1500);
+          setTimeout(() => navigate('/home'), 1500);
         } else {
           toast.error('Unexpected server response. Please try again.', { position: 'top-center' });
         }
