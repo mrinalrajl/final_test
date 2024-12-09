@@ -43,7 +43,7 @@ http://98.81.149.119/login
 <image src="/gen-ai/Snapshots/NEWSAPIAI.png">
 
 # For MySQL 
-We have used Freemysqlhosting for Data reterival and modification .
+I have used Freemysqlhosting for Data reterival and modification .
 ## Freemysqlhosting 
 Its website allows a Database of 5mb Storage  and Free.
 
