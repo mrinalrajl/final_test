@@ -49,7 +49,7 @@ Its website allows a Database of 5mb Storage  and Free.
 
 <image src="/gen-ai/Snapshots/Mysql.png">  
 
-## Whats New in your APP ?
+# Whats New in your APP ?
 
 # Web Scrapping ?  
 Web Scrapping a method to extract content from a website . 
