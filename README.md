@@ -53,6 +53,9 @@ Its website allows a Database of 5mb Storage  and Free.
 
 # Web Scrapping ?  
 Web Scrapping a method to extract content from a website . 
+
+
+
 `Note: We cannot scrape each and every website. Scraping can be done on specific apps depending upon the that respective orgainsation terms and policies.` 
 
 
