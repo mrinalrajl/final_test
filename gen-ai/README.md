@@ -39,11 +39,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 # API for Articles 
 ## NEWAPI.AI 
-<image src="gen-ai/Snapshots/NEWSAPIAI.png"> 
-
-# For MySQL 
-We have used Freemysqlhosting for Data reterival and modification .
-## Freemysqlhosting 
-Its website allows a Database of 5mb Storage  and Free.
-
-<image src="gen-ai/Snapshots/Mysql.png"> 
+<image src="gen-ai/Snapshots/NEWSAPIAI.png">
