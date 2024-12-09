@@ -30,13 +30,13 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 # Live App on http://98.81.149.119/login 
 
 # Live Snapshot for the APP
-[source](/gen-ai/Snapshots/Live.png)
-[source](/gen-ai/Snapshots/Dashbaord.png)
-[source](/gen-ai/Snapshots/Report.png)
-[source](/gen-ai/Snapshots/Deployment.png)
+<image src="/gen-ai/Snapshots/Live.png">
+<image src="/gen-ai/Snapshots/Dashbaord.pn">
+<image src="/gen-ai/Snapshots/Report.png">
+<image src="/gen-ai/Snapshots/Deployment.png">
 
 # Project Specality and Resoures used 
 
 # API for Articles 
 ## NEWAPI.AI 
-![alt text](NEWSAPIAI.png)
+<image src="NEWSAPIAI.png">
