@@ -429,12 +429,35 @@ app.get('/api/news', async (req, res) => {
 
 
 
-
-
-
 // Summary data endpoint
 app.get('/api/summary', (req, res) => {
-  res.json(summaryData);
+
+  const fetchChartData = async () => {
+    try {
+      const data = {};
+
+      for (const [key, query] of Object.entries(queries)) {
+        const results = await new Promise((resolve, reject) => {
+          connection.query(query, (err, rows) => {
+            if (err) return reject(err);
+            resolve(rows);
+          });
+        });
+
+        data[key] = {
+          labels: results.map((row) => row.label),
+          values: results.map((row) => row.value),
+        };
+      }
+
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching chart data:', error);
+      res.status(500).json({ error: 'Failed to fetch chart data' });
+    }
+  };
+
+  fetchChartData();
 });
 
 
