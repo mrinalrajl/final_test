@@ -39,4 +39,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 # API for Articles 
 ## NEWAPI.AI 
-<image src="NEWSAPIAI.png">
+<image src="/Snapshots/NEWSAPIAI.png">
