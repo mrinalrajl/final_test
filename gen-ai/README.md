@@ -31,7 +31,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 # Live Snapshot for the APP
 <image src="/gen-ai/Snapshots/Live.png">
-<image src="/gen-ai/Snapshots/Dashbaord.pn">
+<image src="/gen-ai/Snapshots/Dashbaord.png">
 <image src="/gen-ai/Snapshots/Report.png">
 <image src="/gen-ai/Snapshots/Deployment.png">
 
