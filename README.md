@@ -47,4 +47,21 @@ We have used Freemysqlhosting for Data reterival and modification .
 ## Freemysqlhosting 
 Its website allows a Database of 5mb Storage  and Free.
 
-<image src="/gen-ai/Snapshots/Mysql.png"> 
+<image src="/gen-ai/Snapshots/Mysql.png">  
+
+## Whats Different ?
+
+# Web Scrapping ?  
+Web Scrapping a method to extract content from a website . 
+`Note: We cannot scrape each and every website. Scraping can be done on specific apps depending upon the that respective orgainsation terms and policies.` 
+
+
+Web scraping is possible through 
+
+* `Puppeteer` to use it in your app run this command  `npm i puppeteer`
+* `Cheerio` to use it in your app run this command  `npm i cheerio` 
+
+# Webscraped content is Avaliable in the Summary page
+
+<img src="/gen-ai/Snapshots/WebScrap.png">
+
